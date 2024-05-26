@@ -15,9 +15,9 @@ namespace SW_Tool
         private string _type;
         private string _desc;
         private Species _species;
-        private Attribute dexterity = new Attribute("Dexterity",0);
-        private Attribute perception = new Attribute("Perception",0);
-        private Attribute knowledge = new Attribute("Knowledge",0);
+        private Attribute dexterity = new Attribute("Dexterity", 0);
+        private Attribute perception = new Attribute("Perception", 0);
+        private Attribute knowledge = new Attribute("Knowledge", 0);
         private Attribute strength = new Attribute("Strength", 0);
         private Attribute mechanical = new Attribute("Mechanical", 0);
         private Attribute technical = new Attribute("Technical", 0);
@@ -46,13 +46,50 @@ namespace SW_Tool
             }
         }
 
-        public Species Species { get => _species; set { _species = value; RaiseNotifyChanged("Species"); } }
-        public Attribute Dexterity { get => dexterity; set => dexterity = value; }
-        public Attribute Perception { get => perception; set => perception = value; }
-        public Attribute Knowledge { get => knowledge; set => knowledge = value; }
-        public Attribute Strength { get => strength; set => strength = value; }
-        public Attribute Mechanical { get => mechanical; set => mechanical = value; }
-        public Attribute Technical { get => technical; set => technical = value; }
+        public Species Species { get => _species; set { _species = value; UpdateSpeciesValues(_species); RaiseNotifyChanged("Species"); } }
+        public Attribute Dexterity
+        {
+            get => dexterity; set
+            {
+                dexterity = value;
+                RaiseNotifyChanged("Dexterity");
+            }
+        }
+        public Attribute Perception
+        {
+            get => perception; set
+            {
+                perception = value; RaiseNotifyChanged("Perception");
+            }
+        }
+        public Attribute Knowledge
+        {
+            get => knowledge; set
+            {
+                knowledge = value; RaiseNotifyChanged("Knowledge");
+            }
+        }
+        public Attribute Strength
+        {
+            get => strength; set
+            {
+                strength = value; RaiseNotifyChanged("Strength");
+            }
+        }
+        public Attribute Mechanical
+        {
+            get => mechanical; set
+            {
+                mechanical = value; RaiseNotifyChanged("Mechanical");
+            }
+        }
+        public Attribute Technical
+        {
+            get => technical; set
+            {
+                technical = value; RaiseNotifyChanged("Technical");
+            }
+        }
 
         public List<Skill> dexList { get; set; }
         public List<Skill> percList { get; set; }
@@ -81,20 +118,26 @@ namespace SW_Tool
 
             if (species != null)
             {
-                dexterity.Value = species.DexMin;
-                ap -= species.DexMin;
-                perception.Value = species.PercMin;
-                ap -= species.PercMin;
-                knowledge.Value = species.KnowMin;
-                ap -= species.KnowMin;
-                strength.Value = species.StrMin;
-                ap -= species.StrMin;
-                mechanical.Value = species.MechMin;
-                ap -= species.MechMin;
-                technical.Value = species.TechMin;
-                ap -= species.TechMin;
-                move = species.MoveMin;
+                UpdateSpeciesValues(species);
             }
+        }
+
+        private void UpdateSpeciesValues(Species species)
+        {
+            dexterity.Value = species.DexMin;
+            ap -= species.DexMin;
+            perception.Value = species.PercMin;
+            ap -= species.PercMin;
+            knowledge.Value = species.KnowMin;
+            ap -= species.KnowMin;
+            strength.Value = species.StrMin;
+            ap -= species.StrMin;
+            mechanical.Value = species.MechMin;
+            ap -= species.MechMin;
+            technical.Value = species.TechMin;
+            ap -= species.TechMin;
+            move = species.MoveMin;
+            RaiseNotifyChanged("Ap");
         }
 
         public Character()
@@ -103,6 +146,7 @@ namespace SW_Tool
             _type = "What template or character type is the character?";
             _desc = "write a description!";
         }
+
         private void RaiseNotifyChanged(string propName)
         {
             if (PropertyChanged != null)

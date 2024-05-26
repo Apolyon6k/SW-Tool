@@ -18,28 +18,34 @@
         <local:IntToDiceConverter x:Key="int2DiceConverter" />
     </Window.Resources>
     <DockPanel>
-        <GroupBox Header="Characters" DockPanel.Dock="Left" Width="200" Margin="10">
-        <Grid Margin="10">
+        <GroupBox Header="Characters"
+                  DockPanel.Dock="Left"
+                  Width="200"
+                  Margin="10">
+            <Grid Margin="10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30" />
                     <RowDefinition />
                 </Grid.RowDefinitions>
-            <Button Name="btnNewChar"
-                    Content="New Character"
-                    Click="btnNewChar_Click"
+                <Button Name="btnNewChar"
+                        Content="New Character"
+                        Click="btnNewChar_Click"
                         Margin="0,0,0,5" />
-            <ListBox Name="lbChars" Grid.Row="1">
+                <ListBox Name="lbChars"
+                         Grid.Row="1">
 
-            </ListBox>
+                </ListBox>
             </Grid>
         </GroupBox>
-        <Grid DockPanel.Dock="Right" Width="200">
+        <Grid DockPanel.Dock="Right"
+              Width="200">
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <GroupBox Header="Description" Margin="10">
+            <GroupBox Header="Description"
+                      Margin="10">
                 <TextBox Text="{Binding CurrentChar.Description}"
                          Margin="10"
                          TextWrapping="Wrap"
@@ -53,49 +59,57 @@
                 <RowDefinition Height="auto" />
                 <RowDefinition />
             </Grid.RowDefinitions>
-        <GroupBox Header="Base Data" Margin="10">
-        <Grid Margin="10" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="75"/>
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="30" />
-                <RowDefinition Height="30" />
-                <RowDefinition Height="30" />
-            </Grid.RowDefinitions>
-            <Label Content="Name:" />
-            <TextBox Name="tbName"
-                     Grid.Column="1"
-                     Text="{Binding CurrentChar.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     Style="{StaticResource txBox}" />
+            <GroupBox Header="Base Data"
+                      Margin="10">
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="75" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="30" />
+                    </Grid.RowDefinitions>
+                    <Label Content="Name:" />
+                    <TextBox Name="tbName"
+                             Grid.Column="1"
+                             Text="{Binding CurrentChar.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Style="{StaticResource txBox}" />
 
-            <Label Content="Type:"
-                   Grid.Row="1" />
-            <TextBox Name="tbType"
-                     Grid.Row="1"
-                     Grid.Column="1"
-                     Text="{Binding CurrentChar.Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     Style="{StaticResource txBox}" />
-            <Label Content="Species:"
-                   Grid.Row="2" />
-            <ComboBox Name="cbSpecies"
-                      Grid.Row="2"
-                      Grid.Column="1"
-                      ItemsSource="{Binding Species,UpdateSourceTrigger=PropertyChanged}"
-                      DisplayMemberPath="Name"
-                      SelectionChanged="cbSpecies_SelectionChanged">
-            </ComboBox>
-        </Grid>
-        </GroupBox>
+                    <Label Content="Type:"
+                           Grid.Row="1" />
+                    <TextBox Name="tbType"
+                             Grid.Row="1"
+                             Grid.Column="1"
+                             Text="{Binding CurrentChar.Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Style="{StaticResource txBox}" />
+                    <Label Content="Species:"
+                           Grid.Row="2" />
+                    <ComboBox Name="cbSpecies"
+                              Grid.Row="2"
+                              Grid.Column="1"
+                              ItemsSource="{Binding Species,UpdateSourceTrigger=PropertyChanged}"
+                              DisplayMemberPath="Name"
+                              SelectionChanged="cbSpecies_SelectionChanged"
+                              Height="25">
+                    </ComboBox>
+                </Grid>
+            </GroupBox>
             <GroupBox Header="Numbers"
                       Margin="10"
                       Grid.Row="1">
                 <StackPanel Orientation="Horizontal">
                     <Label Content="Attribute Points" />
-                    <Label Content="{Binding CurrentChar.Ap, Converter={StaticResource int2DiceConverter}, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBlock Text="{Binding CurrentChar.Ap, Converter={StaticResource int2DiceConverter}, UpdateSourceTrigger=PropertyChanged}"
+                               Width="40"
+                               TextAlignment="Center"
+                               VerticalAlignment="Center" />
                     <Label Content="Skill Points" />
-                    <Label Content="{Binding CurrentChar.Sp, Converter={StaticResource int2DiceConverter}, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBlock Text="{Binding CurrentChar.Sp, Converter={StaticResource int2DiceConverter}, UpdateSourceTrigger=PropertyChanged}"
+                               Width="40"
+                               TextAlignment="Center"
+                               VerticalAlignment="Center" />
                     <CheckBox Content="Use Force?"
                               IsChecked="{Binding CurrentChar.Force}"
                               VerticalAlignment="Center" />
@@ -121,18 +135,128 @@
                     </Grid.RowDefinitions>
                     <Label Content="Dexterity"
                            FontWeight="Bold" />
-                    <StackPanel Orientation="Horizontal" Grid.Column="1">
-                        <TextBox x:Name="tbDexAttrib"
-                                 Text="{Binding CurrentChar.Dexterity.Value,Converter={StaticResource int2DiceConverter}, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource txBox}"
-                                 IsReadOnly="True"
-                                 IsUndoEnabled="False" />
-                        <Button Name="btnDexAdd"
-                                Content="+" Width="15" Height="25"
-                                Click="btnDexAdd_Click" />
+                    <StackPanel Orientation="Horizontal"
+                                Grid.Column="1">
                         <Button Name="btnDexSub"
                                 Content="-"
                                 Width="15"
-                                Height="25" />
+                                Height="25"
+                                Click="btnDexSub_Click" />
+                        <TextBlock Text="{Binding CurrentChar.Dexterity.Value,Converter={StaticResource int2DiceConverter}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                   Width="30"
+                                   TextAlignment="Center"
+                                   VerticalAlignment="Center" />
+                        <Button Name="btnDexAdd"
+                                Content="+"
+                                Width="15"
+                                Height="25"
+                                Click="btnDexAdd_Click" />
+                    </StackPanel>
+                    <Label Content="Perception"
+                           FontWeight="Bold"
+                           Grid.Column="2" />
+                    <StackPanel Orientation="Horizontal"
+                                Grid.Column="3">
+                        <Button Name="btnPercSub"
+                                Content="-"
+                                Width="15"
+                                Height="25"
+                                Click="btnPercSub_Click" />
+                        <TextBlock Text="{Binding CurrentChar.Perception.Value,Converter={StaticResource int2DiceConverter}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                   Width="30"
+                                   TextAlignment="Center"
+                                   VerticalAlignment="Center" />
+                        <Button Name="btnPercAdd"
+                                Content="+"
+                                Width="15"
+                                Height="25"
+                                Click="btnPercAdd_Click" />
+                    </StackPanel>
+                    <Label Content="Knowledge"
+                           FontWeight="Bold"
+                           Grid.Row="2" />
+                    <StackPanel Orientation="Horizontal"
+                                Grid.Column="1"
+                                Grid.Row="2">
+                        <Button Name="btnKnowSub"
+                                Content="-"
+                                Width="15"
+                                Height="25"
+                                Click="btnKnowSub_Click" />
+                        <TextBlock Text="{Binding CurrentChar.Knowledge.Value,Converter={StaticResource int2DiceConverter}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                   Width="30"
+                                   TextAlignment="Center"
+                                   VerticalAlignment="Center" />
+                        <Button Name="btnKnowAdd"
+                                Content="+"
+                                Width="15"
+                                Height="25"
+                                Click="btnKnowAdd_Click" />
+                    </StackPanel>
+                    <Label Content="Strength"
+                           FontWeight="Bold"
+                           Grid.Column="2"
+                           Grid.Row="2" />
+                    <StackPanel Orientation="Horizontal"
+                                Grid.Column="3"
+                                Grid.Row="2">
+                        <Button Name="btnStrSub"
+                                Content="-"
+                                Width="15"
+                                Height="25"
+                                Click="btnStrSub_Click" />
+                        <TextBlock Text="{Binding CurrentChar.Strength.Value,Converter={StaticResource int2DiceConverter}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                   Width="30"
+                                   TextAlignment="Center"
+                                   VerticalAlignment="Center" />
+                        <Button Name="btnStrAdd"
+                                Content="+"
+                                Width="15"
+                                Height="25"
+                                Click="btnStrAdd_Click" />
+                    </StackPanel>
+                    <Label Content="Mechanical"
+                           FontWeight="Bold"
+                           Grid.Row="4" />
+                    <StackPanel Orientation="Horizontal"
+                                Grid.Column="1"
+                                Grid.Row="4">
+                        <Button Name="btnMechSub"
+                                Content="-"
+                                Width="15"
+                                Height="25"
+                                Click="btnMechSub_Click" />
+                        <TextBlock Text="{Binding CurrentChar.Mechanical.Value,Converter={StaticResource int2DiceConverter}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                   Width="30"
+                                   TextAlignment="Center"
+                                   VerticalAlignment="Center" />
+                        <Button Name="btnMechAdd"
+                                Content="+"
+                                Width="15"
+                                Height="25"
+                                Click="btnMechAdd_Click" />
+                    </StackPanel>
+                    <Label Content="Technical"
+                           FontWeight="Bold"
+                           Grid.Column="2"
+                           Grid.Row="4" />
+                    <StackPanel Orientation="Horizontal"
+                                Grid.Column="3"
+                                Grid.Row="4">
+                        <Button Name="btnTechSub"
+                                Content="-"
+                                Width="15"
+                                Height="25"
+                                Click="btnTechSub_Click" />
+                        <TextBlock Text="{Binding CurrentChar.Technical.Value,Converter={StaticResource int2DiceConverter}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                   Width="30"
+                                   TextAlignment="Center"
+                                   VerticalAlignment="Center" />
+                        <Button Name="btnTechAdd"
+                                Content="+"
+                                Width="15"
+                                Height="25"
+                                Click="btnTechAdd_Click" />
                     </StackPanel>
                 </Grid>
             </GroupBox>
