@@ -99,8 +99,15 @@ namespace SW_Tool
         public List<Skill> techList { get; set; }
         public int Ap { get => ap; set { ap = value; RaiseNotifyChanged("Ap"); } }
         public int Sp { get => sp; set => sp = value; }
-        public int Move { get => move; set => move = value; }
-        public bool Force { get => _force; set => _force = value; }
+        public int Move { get => move; set { move = value; RaiseNotifyChanged("Move"); } }
+        public bool Force
+        {
+            get => _force; set
+            {
+                _force = value;
+                RaiseNotifyChanged("Force");
+            }
+        }
         public Attribute Control { get => control; set => control = value; }
         public Attribute Sense { get => sense; set => sense = value; }
         public Attribute Alter { get => alter; set => alter = value; }
@@ -122,21 +129,21 @@ namespace SW_Tool
             }
         }
 
-        private void UpdateSpeciesValues(Species species)
+        public void UpdateSpeciesValues(Species species)
         {
-            dexterity.Value = species.DexMin;
-            ap -= species.DexMin;
-            perception.Value = species.PercMin;
-            ap -= species.PercMin;
-            knowledge.Value = species.KnowMin;
-            ap -= species.KnowMin;
-            strength.Value = species.StrMin;
-            ap -= species.StrMin;
-            mechanical.Value = species.MechMin;
-            ap -= species.MechMin;
-            technical.Value = species.TechMin;
-            ap -= species.TechMin;
-            move = species.MoveMin;
+            Dexterity.Value = species.DexMin;
+            Ap -= species.DexMin;
+            Perception.Value = species.PercMin;
+            Ap -= species.PercMin;
+            Knowledge.Value = species.KnowMin;
+            Ap -= species.KnowMin;
+            Strength.Value = species.StrMin;
+            Ap -= species.StrMin;
+            Mechanical.Value = species.MechMin;
+            Ap -= species.MechMin;
+            Technical.Value = species.TechMin;
+            Ap -= species.TechMin;
+            Move = species.MoveMin;
             RaiseNotifyChanged("Ap");
         }
 

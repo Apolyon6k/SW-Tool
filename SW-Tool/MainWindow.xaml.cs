@@ -51,12 +51,12 @@ namespace SW_Tool
             IncreaseAttributeValue(c, c.Dexterity, c.Species.DexMax);
         }
 
-        private static void IncreaseAttributeValue(Character c, Attribute at, int max)
+        private static void IncreaseAttributeValue(Character c, Attribute at, int max, int increase = 1)
         {
-            if (c.Ap > 0 && at.Value < max)
+            if (c.Ap > 0 && at.Value+increase <= max)
             {
-                at.Value++;
-                c.Ap--;
+                at.Value += increase;
+                c.Ap -= increase;
             }
             else if (at.Value == max)
             {
@@ -86,17 +86,19 @@ namespace SW_Tool
             ReduceAttributeValue(c, c.Perception, c.Species.PercMin);
         }
 
-        private static void ReduceAttributeValue(Character c, Attribute at, int min)
+        private static void ReduceAttributeValue(Character c, Attribute at, int min, int reduction = 1)
         {
-            if (at.Value > min)
+            if (at.Value - reduction >= min)
             {
-                at.Value--;
-                c.Ap++;
+                at.Value -= reduction;
+                c.Ap += reduction;
             }
             else if (at.Value == min)
             {
                 MessageBox.Show("You reached the minimum value in this attribute!");
             }
+            else
+                MessageBox.Show("The reduction is not possible.");
         }
 
         private void btnKnowAdd_Click(object sender, RoutedEventArgs e)
@@ -145,6 +147,84 @@ namespace SW_Tool
         {
             Character c = currentViewModel.CurrentChar;
             ReduceAttributeValue(c, c.Technical, c.Species.TechMin);
+        }
+
+        private void cbForce_Checked(object sender, RoutedEventArgs e)
+        {
+            Character c = currentViewModel.CurrentChar;
+            c.Force = !c.Force;
+        }
+
+        private void btnDexSubD_Click(object sender, RoutedEventArgs e)
+        {
+            Character c = currentViewModel.CurrentChar;
+            ReduceAttributeValue(c, c.Dexterity, c.Species.DexMin,3);
+        }
+
+        private void btnDexAddD_Click(object sender, RoutedEventArgs e)
+        {
+            Character c = currentViewModel.CurrentChar;
+            IncreaseAttributeValue(c, c.Dexterity, c.Species.DexMax,3);
+        }
+
+        private void btnPercAddD_Click(object sender, RoutedEventArgs e)
+        {
+            Character c = currentViewModel.CurrentChar;
+            IncreaseAttributeValue(c, c.Perception, c.Species.PercMax, 3);
+        }
+
+        private void btnPercSubD_Click(object sender, RoutedEventArgs e)
+        {
+            Character c = currentViewModel.CurrentChar;
+            ReduceAttributeValue(c, c.Perception, c.Species.PercMin, 3);
+        }
+
+        private void btnKnowSubD_Click(object sender, RoutedEventArgs e)
+        {
+            Character c = currentViewModel.CurrentChar;
+            ReduceAttributeValue(c, c.Knowledge, c.Species.KnowMin, 3);
+        }
+
+        private void btnStrSubD_Click(object sender, RoutedEventArgs e)
+        {
+            Character c = currentViewModel.CurrentChar;
+            ReduceAttributeValue(c, c.Strength, c.Species.StrMin, 3);
+        }
+
+        private void btnMechSubD_Click(object sender, RoutedEventArgs e)
+        {
+            Character c = currentViewModel.CurrentChar;
+            ReduceAttributeValue(c, c.Mechanical, c.Species.MechMin, 3);
+        }
+
+        private void btnTechSubD_Click(object sender, RoutedEventArgs e)
+        {
+            Character c = currentViewModel.CurrentChar;
+            ReduceAttributeValue(c, c.Technical, c.Species.TechMin, 3);
+        }
+
+        private void btnKnowAddD_Click(object sender, RoutedEventArgs e)
+        {
+            Character c = currentViewModel.CurrentChar;
+            IncreaseAttributeValue(c, c.Knowledge, c.Species.KnowMax, 3);
+        }
+
+        private void btnStrAddD_Click(object sender, RoutedEventArgs e)
+        {
+            Character c = currentViewModel.CurrentChar;
+            IncreaseAttributeValue(c, c.Strength, c.Species.StrMax, 3);
+        }
+
+        private void btnMechAddD_Click(object sender, RoutedEventArgs e)
+        {
+            Character c = currentViewModel.CurrentChar;
+            IncreaseAttributeValue(c, c.Mechanical, c.Species.MechMax, 3);
+        }
+
+        private void btnTechAddD_Click(object sender, RoutedEventArgs e)
+        {
+            Character c = currentViewModel.CurrentChar;
+            IncreaseAttributeValue(c, c.Technical, c.Species.TechMax, 3);
         }
     }
 }

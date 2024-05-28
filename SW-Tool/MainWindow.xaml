@@ -52,7 +52,27 @@
                          AcceptsReturn="True"
                          AcceptsTab="True" />
             </GroupBox>
+            <GroupBox Grid.Row="1" Margin="10,0,10,0" >
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                    </Grid.RowDefinitions>
+                    <Label Content="Move"/>
+                    <StackPanel Orientation="Horizontal" Grid.Column="1">
+                        <Label Content="{Binding CurrentChar.Move}"/>
+                        <Label Content=" / "/>
+                        <Label Content="{Binding CurrentChar.Species.MoveMax}"/>
+                    </StackPanel>
+                </Grid>
+            </GroupBox>
         </Grid>
+        
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
@@ -110,9 +130,9 @@
                                Width="40"
                                TextAlignment="Center"
                                VerticalAlignment="Center" />
-                    <CheckBox Content="Use Force?"
+                    <CheckBox x:Name="cbForce" Content="Use Force?"
                               IsChecked="{Binding CurrentChar.Force}"
-                              VerticalAlignment="Center" />
+                              VerticalAlignment="Center" Checked="cbForce_Checked" />
                 </StackPanel>
             </GroupBox>
             <GroupBox Header="Attributes and Skills"
@@ -142,10 +162,20 @@
                                 Width="15"
                                 Height="25"
                                 Click="btnDexSub_Click" />
+                        <Button Name="btnDexSubD"
+                                Content="-D"
+                                Width="20"
+                                Height="25"
+                                Click="btnDexSubD_Click" />
                         <TextBlock Text="{Binding CurrentChar.Dexterity.Value,Converter={StaticResource int2DiceConverter}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                    Width="30"
                                    TextAlignment="Center"
                                    VerticalAlignment="Center" />
+                        <Button Name="btnDexAddD"
+                                Content="+D"
+                                Width="20"
+                                Height="25"
+                                Click="btnDexAddD_Click" />
                         <Button Name="btnDexAdd"
                                 Content="+"
                                 Width="15"
@@ -162,10 +192,20 @@
                                 Width="15"
                                 Height="25"
                                 Click="btnPercSub_Click" />
+                        <Button Name="btnPercSubD"
+                                Content="-D"
+                                Width="20"
+                                Height="25"
+                                Click="btnPercSubD_Click" />
                         <TextBlock Text="{Binding CurrentChar.Perception.Value,Converter={StaticResource int2DiceConverter}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                    Width="30"
                                    TextAlignment="Center"
                                    VerticalAlignment="Center" />
+                        <Button Name="btnPercAddD"
+                                Content="+D"
+                                Width="20"
+                                Height="25"
+                                Click="btnPercAddD_Click" />
                         <Button Name="btnPercAdd"
                                 Content="+"
                                 Width="15"
@@ -183,10 +223,20 @@
                                 Width="15"
                                 Height="25"
                                 Click="btnKnowSub_Click" />
+                        <Button Name="btnKnowSubD"
+                                Content="-D"
+                                Width="20"
+                                Height="25"
+                                Click="btnKnowSubD_Click" />
                         <TextBlock Text="{Binding CurrentChar.Knowledge.Value,Converter={StaticResource int2DiceConverter}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                    Width="30"
                                    TextAlignment="Center"
                                    VerticalAlignment="Center" />
+                        <Button Name="btnKnowAddD"
+                                Content="+D"
+                                Width="20"
+                                Height="25"
+                                Click="btnKnowAddD_Click" />
                         <Button Name="btnKnowAdd"
                                 Content="+"
                                 Width="15"
@@ -205,10 +255,20 @@
                                 Width="15"
                                 Height="25"
                                 Click="btnStrSub_Click" />
+                        <Button Name="btnStrSubD"
+                                Content="-D"
+                                Width="20"
+                                Height="25"
+                                Click="btnStrSubD_Click" />
                         <TextBlock Text="{Binding CurrentChar.Strength.Value,Converter={StaticResource int2DiceConverter}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                    Width="30"
                                    TextAlignment="Center"
                                    VerticalAlignment="Center" />
+                        <Button Name="btnStrAddD"
+                                Content="+D"
+                                Width="20"
+                                Height="25"
+                                Click="btnStrAddD_Click" />
                         <Button Name="btnStrAdd"
                                 Content="+"
                                 Width="15"
@@ -226,10 +286,20 @@
                                 Width="15"
                                 Height="25"
                                 Click="btnMechSub_Click" />
+                        <Button Name="btnMechSubD"
+                                Content="-D"
+                                Width="20"
+                                Height="25"
+                                Click="btnMechSubD_Click" />
                         <TextBlock Text="{Binding CurrentChar.Mechanical.Value,Converter={StaticResource int2DiceConverter}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                    Width="30"
                                    TextAlignment="Center"
                                    VerticalAlignment="Center" />
+                        <Button Name="btnMechAddD"
+                                Content="+D"
+                                Width="20"
+                                Height="25"
+                                Click="btnMechAddD_Click" />
                         <Button Name="btnMechAdd"
                                 Content="+"
                                 Width="15"
@@ -248,10 +318,20 @@
                                 Width="15"
                                 Height="25"
                                 Click="btnTechSub_Click" />
+                        <Button Name="btnTechSubD"
+                                Content="-D"
+                                Width="20"
+                                Height="25"
+                                Click="btnTechSubD_Click" />
                         <TextBlock Text="{Binding CurrentChar.Technical.Value,Converter={StaticResource int2DiceConverter}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                    Width="30"
                                    TextAlignment="Center"
                                    VerticalAlignment="Center" />
+                        <Button Name="btnTechAddD"
+                                Content="+D"
+                                Width="20"
+                                Height="25"
+                                Click="btnTechAddD_Click" />
                         <Button Name="btnTechAdd"
                                 Content="+"
                                 Width="15"
