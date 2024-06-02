@@ -64,7 +64,7 @@ namespace SW_Tool
             }
             else
             {
-                MessageBox.Show("You do not have enough attribute point to increase the value!", "Warning", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("You do not have enough attribute points to increase the value!", "Warning", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -225,6 +225,109 @@ namespace SW_Tool
         {
             Character c = currentViewModel.CurrentChar;
             IncreaseAttributeValue(c, c.Technical, c.Species.TechMax, 3);
+        }
+
+        private void btnSaveList_Click(object sender, RoutedEventArgs e)
+        {
+            currentViewModel.SaveCharacters();
+        }
+
+        private void btnAddDexSkill_Click(object sender, RoutedEventArgs e)
+        {
+            Character c = currentViewModel.CurrentChar;
+            if (cbSkillsDex.SelectedValue != null)
+            {
+                string skillName = cbSkillsDex.Text;
+                if (c.DexList == null)
+                    c.DexList = new System.Collections.ObjectModel.ObservableCollection<Skill>();
+
+                if (c.DexList.Count==0 || c.DexList.FirstOrDefault(x => x.Name == skillName) == null)
+                {
+                    c.DexList.Add(new Skill(skillName, c.Dexterity.Value));
+                }
+                else 
+                    MessageBox.Show($"{skillName} already in list.");
+            }
+        }
+
+        private void btnDexSkillSub_Click(object sender, RoutedEventArgs e)
+        {
+            Character c = currentViewModel.CurrentChar;
+            Button button = sender as Button;
+            int index = lbSkillsDex.Items.IndexOf(button.DataContext);
+            ReduceSkillValue(c, c.DexList[index], c.Dexterity.Value);
+        }
+
+        private void btnDexSkillSubD_Click(object sender, RoutedEventArgs e)
+        {
+            Character c = currentViewModel.CurrentChar;
+            Button button = sender as Button;
+            int index = lbSkillsDex.Items.IndexOf(button.DataContext);
+            ReduceSkillValue(c, c.DexList[index], c.Dexterity.Value,3);
+        }
+
+        private void btnDexSkillAdd_Click(object sender, RoutedEventArgs e)
+        {
+            Character c = currentViewModel.CurrentChar;
+            Button button = sender as Button;
+            int index = lbSkillsDex.Items.IndexOf(button.DataContext);
+            IncreaseSkillValue(c, c.DexList[index], c.Species.DexMax);
+        }
+
+        private void btnDexSkillAddD_Click(object sender, RoutedEventArgs e)
+        {
+            Character c = currentViewModel.CurrentChar;
+            Button button = sender as Button;
+            int index = lbSkillsDex.Items.IndexOf(button.DataContext);
+            IncreaseSkillValue(c, c.DexList[index], c.Species.DexMax,3);
+        }
+
+        private static void ReduceSkillValue(Character c, Skill sk, int min, int reduction = 1)
+        {
+            if (sk.Value - reduction >= min)
+            {
+                sk.Value -= reduction;
+                c.Sp += reduction;
+            }
+            else if (sk.Value == min)
+            {
+                MessageBox.Show("You reached the minimum value in this skill!");
+            }
+            else
+                MessageBox.Show("The reduction is not possible.");
+        }
+
+        private static void IncreaseSkillValue(Character c, Skill sk, int max, int increase = 1)
+        {
+            if (c.Sp > 0 && sk.Value + increase <= max)
+            {
+                sk.Value += increase;
+                c.Sp -= increase;
+            }
+            else if (sk.Value == max)
+            {
+                MessageBox.Show("You reached the maximum value in this skill!");
+            }
+            else
+            {
+                MessageBox.Show("You do not have enough skill points to increase the value!", "Warning", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void lbChars_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int index = lbChars.SelectedIndex;
+            currentViewModel.CurrentChar = currentViewModel.Characters[index];
+            currentViewModel.CurrentChar.isLoaded = true;
+            int sIndex = -1;
+            for (int i = 0; i < currentViewModel.Species.Species.Count; i++)
+            {
+                if (currentViewModel.Species.Species[i].Name==currentViewModel.CurrentChar.Species.Name)
+                {
+                    sIndex = i; 
+                }
+            }
+            cbSpecies.SelectedIndex = sIndex;
         }
     }
 }

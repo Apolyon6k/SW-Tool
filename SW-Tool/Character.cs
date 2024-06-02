@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Security.Cryptography;
@@ -33,6 +34,14 @@ namespace SW_Tool
         private int fp = 1;
 
         private bool _force = false;
+        public bool isLoaded = false;
+        private bool showSkills = false;
+        private ObservableCollection<Skill> dexList = new ObservableCollection<Skill>();
+        private ObservableCollection<Skill> percList = new ObservableCollection<Skill>();
+        private ObservableCollection<Skill> knowList = new ObservableCollection<Skill>();
+        private ObservableCollection<Skill> strList = new ObservableCollection<Skill>();
+        private ObservableCollection<Skill> mechList = new ObservableCollection<Skill>();
+        private ObservableCollection<Skill> techList = new ObservableCollection<Skill>();
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -46,7 +55,7 @@ namespace SW_Tool
             }
         }
 
-        public Species Species { get => _species; set { _species = value; UpdateSpeciesValues(_species); RaiseNotifyChanged("Species"); } }
+        public Species Species { get => _species; set { _species = value; if(!isLoaded)UpdateSpeciesValues(_species); RaiseNotifyChanged("Species"); } }
         public Attribute Dexterity
         {
             get => dexterity; set
@@ -91,14 +100,14 @@ namespace SW_Tool
             }
         }
 
-        public List<Skill> dexList { get; set; }
-        public List<Skill> percList { get; set; }
-        public List<Skill> knowList { get; set; }
-        public List<Skill> strList { get; set; }
-        public List<Skill> mechList { get; set; }
-        public List<Skill> techList { get; set; }
-        public int Ap { get => ap; set { ap = value; RaiseNotifyChanged("Ap"); } }
-        public int Sp { get => sp; set => sp = value; }
+        public ObservableCollection<Skill> DexList { get => dexList; set => dexList = value; }
+        public ObservableCollection<Skill> PercList { get => percList; set => percList = value; }
+        public ObservableCollection<Skill> KnowList { get => knowList; set => knowList = value; }
+        public ObservableCollection<Skill> StrList { get => strList; set => strList = value; }
+        public ObservableCollection<Skill> MechList { get => mechList; set => mechList = value; }
+        public ObservableCollection<Skill> TechList { get => techList; set => techList = value; }
+        public int Ap { get => ap; set { ap = value; RaiseNotifyChanged("Ap"); if (ap == 0) ShowSkills = true; } }
+        public int Sp { get => sp; set { sp = value; RaiseNotifyChanged("Sp"); } }
         public int Move { get => move; set { move = value; RaiseNotifyChanged("Move"); } }
         public bool Force
         {
@@ -114,6 +123,14 @@ namespace SW_Tool
         public string Type { get => _type; set => _type = value; }
         public int CharacterPoints { get => cp; set => cp = value; }
         public int ForcePoints { get => fp; set => fp = value; }
+        public bool ShowSkills
+        {
+            get => showSkills; set
+            {
+                showSkills = value;
+                RaiseNotifyChanged("ShowSkills");
+            }
+        }
 
         public Character(string name, string type, string descr, Species species, bool force)
         {
@@ -123,7 +140,9 @@ namespace SW_Tool
             _species = species;
             _force = force;
 
-            if (species != null)
+            dexList = new ObservableCollection<Skill>();
+
+            if (species != null && !isLoaded)
             {
                 UpdateSpeciesValues(species);
             }
@@ -131,6 +150,7 @@ namespace SW_Tool
 
         public void UpdateSpeciesValues(Species species)
         {
+            Ap = 18 * 3;
             Dexterity.Value = species.DexMin;
             Ap -= species.DexMin;
             Perception.Value = species.PercMin;
@@ -152,6 +172,8 @@ namespace SW_Tool
             _name = "Give your character a cool name!";
             _type = "What template or character type is the character?";
             _desc = "write a description!";
+
+            dexList = new ObservableCollection<Skill>();
         }
 
         private void RaiseNotifyChanged(string propName)

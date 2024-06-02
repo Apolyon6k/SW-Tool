@@ -1,0 +1,65 @@
+{
+ "Species":[
+  {
+    "Name": "Human",
+    "Description": "human",
+    "SpecialAbilitites": [  ],
+    "DexMin": 6,
+    "DexMax": 12,
+    "PercMin": 6,
+    "PercMax": 12,
+    "KnowMin": 6,
+    "KnowMax": 12,
+    "StrMin": 6,
+    "StrMax": 12,
+    "MechMin": 6,
+    "MechMax": 12,
+    "TechMin": 6,
+    "TechMax": 12,
+    "MoveMin": 10,
+    "MoveMax": 12
+    },
+  {
+    "Name": "Farghul",
+    "Description": "feline humanoid",
+    "SpecialAbilitites": [
+      "Teeth: add +2D to brawling damage",
+      "Claws: add +1D to brawling damage",
+      "Prehensile Tail: Farghul have prehensile tails and can use them as an extra limb at -1D+1 to their Dexterity."
+    ],
+    "DexMin": 6,
+    "DexMax": 15,
+    "PercMin": 6,
+    "PercMax": 15,
+    "KnowMin": 3,
+    "KnowMax": 12,
+    "StrMin": 6,
+    "StrMax": 12,
+    "MechMin": 3,
+    "MechMax": 10,
+    "TechMin": 3,
+    "TechMax": 10,
+    "MoveMin": 10,
+    "MoveMax": 12
+  },
+  {
+    "Name": "Rattataki",
+    "Description": "pale-skinned humanoid with bald head and tattoos on body and head",
+    "SpecialAbilitites": [ "Strong Minds - All Rattataki are immune to Rattataki mind control, and the difficulties to use the Jedi power affect mind or control mind against them are one level higher." ],
+    "DexMin": 6,
+    "DexMax": 12,
+    "PercMin": 6,
+    "PercMax": 12,
+    "KnowMin": 6,
+    "KnowMax": 12,
+    "StrMin": 6,
+    "StrMax": 12,
+    "MechMin": 6,
+    "MechMax": 12,
+    "TechMin": 6,
+    "TechMax": 12,
+    "MoveMin": 10,
+    "MoveMax": 13
+  }
+  ]
+}

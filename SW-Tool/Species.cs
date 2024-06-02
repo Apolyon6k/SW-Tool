@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,7 @@ namespace SW_Tool
     {
         private string _name;
         private string _desc;
-        private List<string> _specialAbilities;
+        private ObservableCollection<string> _specialAbilities;
 
         private int _dexMin, _dexMax;
         private int _percMin, _percMax;
@@ -21,7 +22,7 @@ namespace SW_Tool
         private int _techMin, _techMax;
         private int _moveMin, _moveMax;
 
-        public Species(string name, string description, List<string> specialAbilities, int dexMin, int dexMax, int percMin, int percMax, int knowMin, int knowMax, int strMin, int strMax, int mechMin, int mechMax, int techMin, int techMax, int moveMin, int moveMax)
+        public Species(string name, string description, ObservableCollection<string> specialAbilities, int dexMin, int dexMax, int percMin, int percMax, int knowMin, int knowMax, int strMin, int strMax, int mechMin, int mechMax, int techMin, int techMax, int moveMin, int moveMax)
         {
             _name = name;
             _desc = description;
@@ -50,7 +51,7 @@ namespace SW_Tool
                 _desc = value;
             }
         }
-        public List<string> SpecialAbilities { get => _specialAbilities; set => _specialAbilities = value; }
+        public ObservableCollection<string> SpecialAbilities { get => _specialAbilities; set => _specialAbilities = value; }
         public int DexMin { get => _dexMin; set => _dexMin = value; }
         public int DexMax { get => _dexMax; set => _dexMax = value; }
         public int PercMin { get => _percMin; set => _percMin = value; }
@@ -72,5 +73,10 @@ namespace SW_Tool
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propName));
         }
+    }
+
+    public class SpeciesList
+    {
+        public ObservableCollection<Species> Species { get; set; } = new ObservableCollection<Species>();
     }
 }

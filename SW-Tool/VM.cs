@@ -1,29 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows.Data;
+
+using Newtonsoft.Json;
 
 namespace SW_Tool
 {
     public class VM : INotifyPropertyChanged
     {
         private Character currentChar;
-        public List<Character> characters;
-        private List<Species> species;
-        public List<Skill> dexSkills;
-        public List<Skill> percSkills;
-        public List<Skill> knowSkills;
-        public List<Skill> strSkills;
-        public List<Skill> mechSkills;
-        public List<Skill> techSkills;
+        private ObservableCollection<Character> characters;
+        private SpeciesList species;
+        private SkillList skills;
 
-        public Character CurrentChar { get => currentChar; set { currentChar = value; RaiseNotifyChanged("CurrentChar"); } }
+        public Character CurrentChar { get => currentChar; set { currentChar = value; RaiseNotifyChanged("CurrentChar"); if (!characters.Contains(currentChar)) characters.Add(currentChar); RaiseNotifyChanged("Characters"); } }
 
-        public List<Species> Species
+        public SpeciesList Species
         {
             get => species; set
             {
@@ -32,6 +27,10 @@ namespace SW_Tool
             }
         }
 
+        public ObservableCollection<Character> Characters { get => characters; set { characters = value; RaiseNotifyChanged("Characters"); } }
+
+        public SkillList Skills { get => skills; set => skills = value; }
+
         public event PropertyChangedEventHandler PropertyChanged;
         private void RaiseNotifyChanged(string propName)
         {
@@ -39,18 +38,31 @@ namespace SW_Tool
                 PropertyChanged(this, new PropertyChangedEventArgs(propName));
         }
 
+        public void SaveCharacters()
+        {
+            var options = new JsonSerializerSettings();
+            options.Formatting = Formatting.Indented;
+
+            var jsonString = JsonConvert.SerializeObject(characters, options);
+            File.WriteAllText("characters.json", jsonString);
+        }
+
         public VM()
         {
-            characters = new List<Character>();
-            species = new List<Species>();
-            dexSkills = new List<Skill>();
-            percSkills = new List<Skill>();
-            knowSkills = new List<Skill>();
-            strSkills = new List<Skill>();
-            mechSkills = new List<Skill>();
-            techSkills = new List<Skill>();
+            characters = new ObservableCollection<Character>();
+            species = new SpeciesList();
+            skills = new SkillList();
             currentChar = null;
-            species.Add(new Species("Human", "human", new List<string> { ""}, 2 * 3, 4 * 3, 2 * 3, 4 * 3, 6, 12, 6, 12, 6, 12, 6, 12, 10, 12));
+
+            string skillsJson = File.ReadAllText("skills.json");
+            skills = JsonConvert.DeserializeObject<SkillList>(skillsJson);
+            string speciesJson = File.ReadAllText("Spezies.json");
+            species = JsonConvert.DeserializeObject<SpeciesList>(speciesJson);
+            if (File.Exists("characters.json"))
+            {
+                string charsJson = File.ReadAllText("characters.json");
+                characters = JsonConvert.DeserializeObject<ObservableCollection<Character>>(charsJson);
+            }
         }
     }
 
@@ -63,11 +75,11 @@ namespace SW_Tool
             {
                 string str = value.ToString();
                 int num = int.Parse(str);
-                int num1 = num/3; 
-                int num2 = num%3;
+                int num1 = num / 3;
+                int num2 = num % 3;
 
-                if(num2==0)
-                    str= $"{num1}D";
+                if (num2 == 0)
+                    str = $"{num1}D";
                 else
                     str = $"{num1}D+{num2}";
 
