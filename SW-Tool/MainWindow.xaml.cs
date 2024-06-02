@@ -263,7 +263,7 @@ namespace SW_Tool
             Character c = currentViewModel.CurrentChar;
             Button button = sender as Button;
             int index = lbSkillsDex.Items.IndexOf(button.DataContext);
-            ReduceSkillValue(c, c.DexList[index], c.Dexterity.Value,3);
+            ReduceSkillValue(c, c.DexList[index], c.Dexterity.Value, 3);
         }
 
         private void btnDexSkillAdd_Click(object sender, RoutedEventArgs e)
@@ -279,7 +279,257 @@ namespace SW_Tool
             Character c = currentViewModel.CurrentChar;
             Button button = sender as Button;
             int index = lbSkillsDex.Items.IndexOf(button.DataContext);
-            IncreaseSkillValue(c, c.DexList[index], c.Species.DexMax,3);
+            IncreaseSkillValue(c, c.DexList[index], c.Species.DexMax, 3);
+        }
+
+        private void btnPercSkillSub_Click(object sender, RoutedEventArgs e)
+        {
+            Character c = currentViewModel.CurrentChar;
+            Button button = sender as Button;
+            int index = lbSkillsPerc.Items.IndexOf(button.DataContext);
+            ReduceSkillValue(c, c.PercList[index], c.Perception.Value);
+        }
+
+        private void btnPercSkillSubD_Click(object sender, RoutedEventArgs e)
+        {
+            Character c = currentViewModel.CurrentChar;
+            Button button = sender as Button;
+            int index = lbSkillsPerc.Items.IndexOf(button.DataContext);
+            ReduceSkillValue(c, c.PercList[index], c.Perception.Value, 3);
+        }
+
+        private void btnPercSkillAdd_Click(object sender, RoutedEventArgs e)
+        {
+            Character c = currentViewModel.CurrentChar;
+            Button button = sender as Button;
+            int index = lbSkillsPerc.Items.IndexOf(button.DataContext);
+            IncreaseSkillValue(c, c.PercList[index], c.Species.PercMax);
+        }
+
+        private void btnPercSkillAddD_Click(object sender, RoutedEventArgs e)
+        {
+            Character c = currentViewModel.CurrentChar;
+            Button button = sender as Button;
+            int index = lbSkillsPerc.Items.IndexOf(button.DataContext);
+            IncreaseSkillValue(c, c.PercList[index], c.Species.PercMax, 3);
+        }
+
+        private void btnAddPercSkill_Click(object sender, RoutedEventArgs e)
+        {
+            Character c = currentViewModel.CurrentChar;
+            if (cbSkillsPerc.SelectedValue != null)
+            {
+                string skillName = cbSkillsPerc.Text;
+                if (c.PercList == null)
+                    c.PercList = new System.Collections.ObjectModel.ObservableCollection<Skill>();
+
+                if (c.PercList.Count == 0 || c.PercList.FirstOrDefault(x => x.Name == skillName) == null)
+                {
+                    c.PercList.Add(new Skill(skillName, c.Perception.Value));
+                }
+                else
+                    MessageBox.Show($"{skillName} already in list.");
+            }
+        }
+
+        private void btnKnowSkillSub_Click(object sender, RoutedEventArgs e)
+        {
+            Character c = currentViewModel.CurrentChar;
+            Button button = sender as Button;
+            int index = lbSkillsKnow.Items.IndexOf(button.DataContext);
+            ReduceSkillValue(c, c.KnowList[index], c.Knowledge.Value);
+        }
+
+        private void btnKnowSkillSubD_Click(object sender, RoutedEventArgs e)
+        {
+            Character c = currentViewModel.CurrentChar;
+            Button button = sender as Button;
+            int index = lbSkillsKnow.Items.IndexOf(button.DataContext);
+            ReduceSkillValue(c, c.KnowList[index], c.Knowledge.Value, 3);
+        }
+
+        private void btnKnowSkillAdd_Click(object sender, RoutedEventArgs e)
+        {
+            Character c = currentViewModel.CurrentChar;
+            Button button = sender as Button;
+            int index = lbSkillsKnow.Items.IndexOf(button.DataContext);
+            IncreaseSkillValue(c, c.KnowList[index], c.Species.KnowMax);
+        }
+
+        private void btnKnowSkillAddD_Click(object sender, RoutedEventArgs e)
+        {
+            Character c = currentViewModel.CurrentChar;
+            Button button = sender as Button;
+            int index = lbSkillsKnow.Items.IndexOf(button.DataContext);
+            IncreaseSkillValue(c, c.KnowList[index], c.Species.KnowMax, 3);
+        }
+
+        private void btnAddKnowSkill_Click(object sender, RoutedEventArgs e)
+        {
+            Character c = currentViewModel.CurrentChar;
+            if (cbSkillsKnow.SelectedValue != null)
+            {
+                string skillName = cbSkillsKnow.Text;
+                if (c.KnowList == null)
+                    c.KnowList = new System.Collections.ObjectModel.ObservableCollection<Skill>();
+
+                if (c.KnowList.Count == 0 || c.KnowList.FirstOrDefault(x => x.Name == skillName) == null)
+                {
+                    c.KnowList.Add(new Skill(skillName, c.Knowledge.Value));
+                }
+                else
+                    MessageBox.Show($"{skillName} already in list.");
+            }
+        }
+
+        private void btnStrSkillSub_Click(object sender, RoutedEventArgs e)
+        {
+            Character c = currentViewModel.CurrentChar;
+            Button button = sender as Button;
+            int index = lbSkillsStr.Items.IndexOf(button.DataContext);
+            ReduceSkillValue(c, c.StrList[index], c.Strength.Value);
+        }
+
+        private void btnStrSkillSubD_Click(object sender, RoutedEventArgs e)
+        {
+            Character c = currentViewModel.CurrentChar;
+            Button button = sender as Button;
+            int index = lbSkillsStr.Items.IndexOf(button.DataContext);
+            ReduceSkillValue(c, c.StrList[index], c.Strength.Value, 3);
+        }
+
+        private void btnStrSkillAdd_Click(object sender, RoutedEventArgs e)
+        {
+            Character c = currentViewModel.CurrentChar;
+            Button button = sender as Button;
+            int index = lbSkillsStr.Items.IndexOf(button.DataContext);
+            IncreaseSkillValue(c, c.StrList[index], c.Species.StrMax);
+        }
+
+        private void btnStrSkillAddD_Click(object sender, RoutedEventArgs e)
+        {
+            Character c = currentViewModel.CurrentChar;
+            Button button = sender as Button;
+            int index = lbSkillsStr.Items.IndexOf(button.DataContext);
+            IncreaseSkillValue(c, c.StrList[index], c.Species.StrMax, 3);
+        }
+
+        private void btnAddStrSkill_Click(object sender, RoutedEventArgs e)
+        {
+            Character c = currentViewModel.CurrentChar;
+            if (cbSkillsStr.SelectedValue != null)
+            {
+                string skillName = cbSkillsStr.Text;
+                if (c.StrList == null)
+                    c.StrList = new System.Collections.ObjectModel.ObservableCollection<Skill>();
+
+                if (c.StrList.Count == 0 || c.StrList.FirstOrDefault(x => x.Name == skillName) == null)
+                {
+                    c.StrList.Add(new Skill(skillName, c.Strength.Value));
+                }
+                else
+                    MessageBox.Show($"{skillName} already in list.");
+            }
+        }
+
+        private void btnMechSkillSub_Click(object sender, RoutedEventArgs e)
+        {
+            Character c = currentViewModel.CurrentChar;
+            Button button = sender as Button;
+            int index = lbSkillsMech.Items.IndexOf(button.DataContext);
+            ReduceSkillValue(c, c.MechList[index], c.Mechanical.Value);
+        }
+
+        private void btnMechSkillSubD_Click(object sender, RoutedEventArgs e)
+        {
+            Character c = currentViewModel.CurrentChar;
+            Button button = sender as Button;
+            int index = lbSkillsMech.Items.IndexOf(button.DataContext);
+            ReduceSkillValue(c, c.MechList[index], c.Mechanical.Value, 3);
+        }
+
+        private void btnMechSkillAdd_Click(object sender, RoutedEventArgs e)
+        {
+            Character c = currentViewModel.CurrentChar;
+            Button button = sender as Button;
+            int index = lbSkillsMech.Items.IndexOf(button.DataContext);
+            IncreaseSkillValue(c, c.MechList[index], c.Species.MechMax);
+        }
+
+        private void btnMechSkillAddD_Click(object sender, RoutedEventArgs e)
+        {
+            Character c = currentViewModel.CurrentChar;
+            Button button = sender as Button;
+            int index = lbSkillsMech.Items.IndexOf(button.DataContext);
+            IncreaseSkillValue(c, c.MechList[index], c.Species.MechMax, 3);
+        }
+
+        private void btnAddMechSkill_Click(object sender, RoutedEventArgs e)
+        {
+            Character c = currentViewModel.CurrentChar;
+            if (cbSkillsMech.SelectedValue != null)
+            {
+                string skillName = cbSkillsMech.Text;
+                if (c.MechList == null)
+                    c.MechList = new System.Collections.ObjectModel.ObservableCollection<Skill>();
+
+                if (c.MechList.Count == 0 || c.MechList.FirstOrDefault(x => x.Name == skillName) == null)
+                {
+                    c.MechList.Add(new Skill(skillName, c.Mechanical.Value));
+                }
+                else
+                    MessageBox.Show($"{skillName} already in list.");
+            }
+        }
+
+        private void btnTechSkillSub_Click(object sender, RoutedEventArgs e)
+        {
+            Character c = currentViewModel.CurrentChar;
+            Button button = sender as Button;
+            int index = lbSkillsTech.Items.IndexOf(button.DataContext);
+            ReduceSkillValue(c, c.TechList[index], c.Technical.Value);
+        }
+
+        private void btnTechSkillSubD_Click(object sender, RoutedEventArgs e)
+        {
+            Character c = currentViewModel.CurrentChar;
+            Button button = sender as Button;
+            int index = lbSkillsTech.Items.IndexOf(button.DataContext);
+            ReduceSkillValue(c, c.TechList[index], c.Technical.Value, 3);
+        }
+
+        private void btnTechSkillAdd_Click(object sender, RoutedEventArgs e)
+        {
+            Character c = currentViewModel.CurrentChar;
+            Button button = sender as Button;
+            int index = lbSkillsTech.Items.IndexOf(button.DataContext);
+            IncreaseSkillValue(c, c.TechList[index], c.Species.TechMax);
+        }
+
+        private void btnTechSkillAddD_Click(object sender, RoutedEventArgs e)
+        {
+            Character c = currentViewModel.CurrentChar;
+            Button button = sender as Button;
+            int index = lbSkillsTech.Items.IndexOf(button.DataContext);
+            IncreaseSkillValue(c, c.TechList[index], c.Species.TechMax, 3);
+        }
+
+        private void btnAddTechSkill_Click(object sender, RoutedEventArgs e)
+        {
+            Character c = currentViewModel.CurrentChar;
+            if (cbSkillsTech.SelectedValue != null)
+            {
+                string skillName = cbSkillsTech.Text;
+                if (c.TechList == null)
+                    c.TechList = new System.Collections.ObjectModel.ObservableCollection<Skill>();
+
+                if (c.TechList.Count == 0 || c.TechList.FirstOrDefault(x => x.Name == skillName) == null)
+                {
+                    c.TechList.Add(new Skill(skillName, c.Technical.Value));
+                }
+                else
+                    MessageBox.Show($"{skillName} already in list.");
+            }
         }
 
         private static void ReduceSkillValue(Character c, Skill sk, int min, int reduction = 1)

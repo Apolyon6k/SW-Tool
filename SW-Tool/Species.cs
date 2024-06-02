@@ -49,9 +49,19 @@ namespace SW_Tool
             get => _desc; set
             {
                 _desc = value;
+                RaiseNotifyChanged("Description");
             }
         }
-        public ObservableCollection<string> SpecialAbilities { get => _specialAbilities; set => _specialAbilities = value; }
+
+        public ObservableCollection<string> SpecialAbilities
+        {
+            get => _specialAbilities; set
+            {
+                _specialAbilities = value;
+                RaiseNotifyChanged("SpecialAbilities");
+            }
+        }
+
         public int DexMin { get => _dexMin; set => _dexMin = value; }
         public int DexMax { get => _dexMax; set => _dexMax = value; }
         public int PercMin { get => _percMin; set => _percMin = value; }

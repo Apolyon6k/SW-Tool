@@ -78,7 +78,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="30"/>
-                        <RowDefinition Height="30"/>
+                        <RowDefinition />
                     </Grid.RowDefinitions>
                     <Label Content="Move"/>
                     <StackPanel Orientation="Horizontal" Grid.Column="1">
@@ -86,6 +86,14 @@
                         <Label Content=" / "/>
                         <Label Content="{Binding CurrentChar.Species.MoveMax}"/>
                     </StackPanel>
+                    <Label Content="Special Abilities:" Grid.Row="1" Grid.ColumnSpan="2"/>
+                    <ListBox ItemsSource="{Binding CurrentChar.Species.SpecialAbilities}" Grid.Row="2" Grid.ColumnSpan="2" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                    <TextBlock Text="{Binding}" TextWrapping="Wrap"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
                 </Grid>
             </GroupBox>
         </Grid>
@@ -220,7 +228,7 @@
                         </Grid.RowDefinitions>
                         <ComboBox Name="cbSkillsDex" ItemsSource="{Binding Skills.DexSkills,UpdateSourceTrigger=PropertyChanged}" Height="25"/>
 
-                        <Button x:Name="btnAddDexSkill" Content="Add skill" Grid.Column="1" Margin="5,0,0,0" Height="25" Click="btnAddDexSkill_Click" Visibility="{Binding CurrentChar.showSkills}"/>
+                        <Button x:Name="btnAddDexSkill" Content="Add skill" Grid.Column="1" Margin="5,0,0,0" Height="25" Click="btnAddDexSkill_Click" />
                         <ListBox x:Name="lbSkillsDex" Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding CurrentChar.DexList, UpdateSourceTrigger=PropertyChanged}" d:ItemsSource="{d:SampleData ItemCount=5}"  HorizontalContentAlignment="Stretch">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
@@ -288,6 +296,66 @@
                                 Height="25"
                                 Click="btnPercAdd_Click" />
                     </StackPanel>
+                    <Grid Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Margin="5" >
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding CurrentChar.ShowSkills, UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Style>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <ComboBox Name="cbSkillsPerc" ItemsSource="{Binding Skills.PercSkills,UpdateSourceTrigger=PropertyChanged}" Height="25"/>
+
+                        <Button x:Name="btnAddPercSkill" Content="Add skill" Grid.Column="1" Margin="5,0,0,0" Height="25" Click="btnAddPercSkill_Click" />
+                        <ListBox x:Name="lbSkillsPerc" Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding CurrentChar.PercList, UpdateSourceTrigger=PropertyChanged}" d:ItemsSource="{d:SampleData ItemCount=5}"  HorizontalContentAlignment="Stretch">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Content="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+                                        <StackPanel Orientation="Horizontal" Grid.Column="1">
+                                            <Button Content="-"
+                                Width="15"
+                                Height="25"
+                                Click="btnPercSkillSub_Click" />
+                                            <Button Content="-D"
+                                Width="20"
+                                Height="25"
+                                Click="btnPercSkillSubD_Click" />
+                                            <TextBlock Text="{Binding Value,Converter={StaticResource int2DiceConverter}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                   Width="30"
+                                   TextAlignment="Center"
+                                   VerticalAlignment="Center" />
+                                            <Button 
+                                Content="+D"
+                                Width="20"
+                                Height="25"
+                                Click="btnPercSkillAddD_Click" />
+                                            <Button 
+                                Content="+"
+                                Width="15"
+                                Height="25"
+                                Click="btnPercSkillAdd_Click" />
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
                     <Label Content="Knowledge"
                            FontWeight="Bold"
                            Grid.Row="2" />
@@ -319,6 +387,66 @@
                                 Height="25"
                                 Click="btnKnowAdd_Click" />
                     </StackPanel>
+                    <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="5" >
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding CurrentChar.ShowSkills, UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Style>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <ComboBox Name="cbSkillsKnow" ItemsSource="{Binding Skills.KnowSkills,UpdateSourceTrigger=PropertyChanged}" Height="25"/>
+
+                        <Button x:Name="btnAddKnowSkill" Content="Add skill" Grid.Column="1" Margin="5,0,0,0" Height="25" Click="btnAddKnowSkill_Click" />
+                        <ListBox x:Name="lbSkillsKnow" Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding CurrentChar.KnowList, UpdateSourceTrigger=PropertyChanged}" d:ItemsSource="{d:SampleData ItemCount=5}"  HorizontalContentAlignment="Stretch">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Content="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+                                        <StackPanel Orientation="Horizontal" Grid.Column="1">
+                                            <Button Content="-"
+                                Width="15"
+                                Height="25"
+                                Click="btnKnowSkillSub_Click" />
+                                            <Button Content="-D"
+                                Width="20"
+                                Height="25"
+                                Click="btnKnowSkillSubD_Click" />
+                                            <TextBlock Text="{Binding Value,Converter={StaticResource int2DiceConverter}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                   Width="30"
+                                   TextAlignment="Center"
+                                   VerticalAlignment="Center" />
+                                            <Button 
+                                Content="+D"
+                                Width="20"
+                                Height="25"
+                                Click="btnKnowSkillAddD_Click" />
+                                            <Button 
+                                Content="+"
+                                Width="15"
+                                Height="25"
+                                Click="btnKnowSkillAdd_Click" />
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
                     <Label Content="Strength"
                            FontWeight="Bold"
                            Grid.Column="2"
@@ -351,6 +479,66 @@
                                 Height="25"
                                 Click="btnStrAdd_Click" />
                     </StackPanel>
+                    <Grid Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" Margin="5" >
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding CurrentChar.ShowSkills, UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Style>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <ComboBox Name="cbSkillsStr" ItemsSource="{Binding Skills.StrSkills,UpdateSourceTrigger=PropertyChanged}" Height="25"/>
+
+                        <Button x:Name="btnAddStrSkill" Content="Add skill" Grid.Column="1" Margin="5,0,0,0" Height="25" Click="btnAddStrSkill_Click" />
+                        <ListBox x:Name="lbSkillsStr" Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding CurrentChar.StrList, UpdateSourceTrigger=PropertyChanged}" d:ItemsSource="{d:SampleData ItemCount=5}"  HorizontalContentAlignment="Stretch">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Content="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+                                        <StackPanel Orientation="Horizontal" Grid.Column="1">
+                                            <Button Content="-"
+                                Width="15"
+                                Height="25"
+                                Click="btnStrSkillSub_Click" />
+                                            <Button Content="-D"
+                                Width="20"
+                                Height="25"
+                                Click="btnStrSkillSubD_Click" />
+                                            <TextBlock Text="{Binding Value,Converter={StaticResource int2DiceConverter}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                   Width="30"
+                                   TextAlignment="Center"
+                                   VerticalAlignment="Center" />
+                                            <Button 
+                                Content="+D"
+                                Width="20"
+                                Height="25"
+                                Click="btnStrSkillAddD_Click" />
+                                            <Button 
+                                Content="+"
+                                Width="15"
+                                Height="25"
+                                Click="btnStrSkillAdd_Click" />
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
                     <Label Content="Mechanical"
                            FontWeight="Bold"
                            Grid.Row="4" />
@@ -382,6 +570,66 @@
                                 Height="25"
                                 Click="btnMechAdd_Click" />
                     </StackPanel>
+                    <Grid Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Margin="5" >
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding CurrentChar.ShowSkills, UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Style>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <ComboBox Name="cbSkillsMech" ItemsSource="{Binding Skills.MechSkills,UpdateSourceTrigger=PropertyChanged}" Height="25"/>
+
+                        <Button x:Name="btnAddMechSkill" Content="Add skill" Grid.Column="1" Margin="5,0,0,0" Height="25" Click="btnAddMechSkill_Click" />
+                        <ListBox x:Name="lbSkillsMech" Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding CurrentChar.MechList, UpdateSourceTrigger=PropertyChanged}" d:ItemsSource="{d:SampleData ItemCount=5}"  HorizontalContentAlignment="Stretch">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Content="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+                                        <StackPanel Orientation="Horizontal" Grid.Column="1">
+                                            <Button Content="-"
+                                Width="15"
+                                Height="25"
+                                Click="btnMechSkillSub_Click" />
+                                            <Button Content="-D"
+                                Width="20"
+                                Height="25"
+                                Click="btnMechSkillSubD_Click" />
+                                            <TextBlock Text="{Binding Value,Converter={StaticResource int2DiceConverter}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                   Width="30"
+                                   TextAlignment="Center"
+                                   VerticalAlignment="Center" />
+                                            <Button 
+                                Content="+D"
+                                Width="20"
+                                Height="25"
+                                Click="btnMechSkillAddD_Click" />
+                                            <Button 
+                                Content="+"
+                                Width="15"
+                                Height="25"
+                                Click="btnMechSkillAdd_Click" />
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
                     <Label Content="Technical"
                            FontWeight="Bold"
                            Grid.Column="2"
@@ -414,6 +662,66 @@
                                 Height="25"
                                 Click="btnTechAdd_Click" />
                     </StackPanel>
+                    <Grid Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="2" Margin="5" >
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding CurrentChar.ShowSkills, UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Style>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <ComboBox Name="cbSkillsTech" ItemsSource="{Binding Skills.TechSkills,UpdateSourceTrigger=PropertyChanged}" Height="25"/>
+
+                        <Button x:Name="btnAddTechSkill" Content="Add skill" Grid.Column="1" Margin="5,0,0,0" Height="25" Click="btnAddTechSkill_Click" />
+                        <ListBox x:Name="lbSkillsTech" Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding CurrentChar.TechList, UpdateSourceTrigger=PropertyChanged}" d:ItemsSource="{d:SampleData ItemCount=5}"  HorizontalContentAlignment="Stretch">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Content="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+                                        <StackPanel Orientation="Horizontal" Grid.Column="1">
+                                            <Button Content="-"
+                                Width="15"
+                                Height="25"
+                                Click="btnTechSkillSub_Click" />
+                                            <Button Content="-D"
+                                Width="20"
+                                Height="25"
+                                Click="btnTechSkillSubD_Click" />
+                                            <TextBlock Text="{Binding Value,Converter={StaticResource int2DiceConverter}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                   Width="30"
+                                   TextAlignment="Center"
+                                   VerticalAlignment="Center" />
+                                            <Button 
+                                Content="+D"
+                                Width="20"
+                                Height="25"
+                                Click="btnTechSkillAddD_Click" />
+                                            <Button 
+                                Content="+"
+                                Width="15"
+                                Height="25"
+                                Click="btnTechSkillAdd_Click" />
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
                 </Grid>
             </GroupBox>
         </Grid>
